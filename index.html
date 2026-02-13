@@ -2,43 +2,57 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>GEAL • AI PRO</title>
+<title>Diamond Portal</title>
 
 <style>
     body {
         margin: 0;
         height: 100vh;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
-        background: radial-gradient(circle at center, #1a1a2e 0%, #050510 70%, #000 100%);
+        background: #000;
         overflow: hidden;
         font-family: sans-serif;
-        transition: opacity 0.8s ease, background 0.8s ease;
+        position: relative;
+        transition: opacity 0.8s ease;
     }
 
-    /* subtle space dots */
-    body::before {
-        content: "";
+    /* outer space moving stars */
+    .stars {
         position: absolute;
         inset: 0;
+        width: 200%;
+        height: 200%;
         background-image:
-            radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,0.8), transparent),
-            radial-gradient(1px 1px at 70% 60%, rgba(255,255,255,0.6), transparent),
-            radial-gradient(2px 2px at 40% 80%, rgba(255,255,255,0.7), transparent);
-        background-size: 300px 300px;
-        filter: blur(1px);
+            radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,1), transparent),
+            radial-gradient(1px 1px at 30% 40%, rgba(255,255,255,0.8), transparent),
+            radial-gradient(1px 1px at 50% 60%, rgba(255,255,255,0.9), transparent),
+            radial-gradient(1px 1px at 70% 80%, rgba(255,255,255,0.7), transparent),
+            radial-gradient(1px 1px at 90% 10%, rgba(255,255,255,0.85), transparent);
+        background-size: 400px 400px;
+        filter: blur(0.6px);
+        animation: drift 500s linear infinite; /* very slow drift */
+        z-index: 0;
     }
 
+    @keyframes drift {
+        from { transform: translate(0,0); }
+        to { transform: translate(-250px, -250px); }
+    }
+
+    /* glowing diamond in center */
     .diamond {
-        font-size: 95px;
-        color: white;
+        font-size: 100px;
+        color: #ffffff; /* bright white */
         cursor: pointer;
         transition: opacity 0.6s ease, transform 0.4s ease;
         text-shadow:
-            0 0 10px rgba(255,255,255,0.9),
-            0 0 30px rgba(255,255,255,0.6),
-            0 0 60px rgba(180,220,255,0.4);
+            0 0 15px #ffffff,
+            0 0 40px #ffffff,
+            0 0 60px rgba(255,255,255,0.6),
+            0 0 100px rgba(255,255,255,0.4);
         z-index: 1;
     }
 
@@ -55,11 +69,79 @@
         opacity: 0;
         background: #000;
     }
+
+    .footer {
+        position: absolute;
+        bottom: 10px;
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.6);
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    .version {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.6);
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    .contact {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 12px;
+        color: rgba(255,255,255,0.8);
+        cursor: pointer;
+        padding: 4px 8px;
+        border-radius: 4px;
+        background: rgba(0,0,0,0.4);
+        transition: background 0.2s ease;
+        z-index: 2;
+    }
+
+    .contact:hover {
+        background: rgba(255,255,255,0.1);
+    }
+
+    .tooltip {
+        position: absolute;
+        top: 30px;
+        right: 10px;
+        background: rgba(0,0,0,0.8);
+        color: #fff;
+        padding: 6px 10px;
+        border-radius: 6px;
+        font-size: 12px;
+        display: none;
+        z-index: 3;
+        white-space: nowrap;
+    }
+
+    .title {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        font-size: 12px;
+        color: rgba(255,255,255,0.6);
+        z-index: 1;
+        pointer-events: none;
+    }
 </style>
 </head>
 <body>
 
+<div class="stars"></div>
+
 <div class="diamond" onclick="openLink()">◆</div>
+<div class="footer">Powered by Gemini AI</div>
+<div class="version">Ver 2.5</div>
+<div class="contact" onclick="toggleTooltip()">Contact</div>
+<div class="tooltip" id="tooltip">urban.mirage.com@gmail.com</div>
+<div class="title">GEAL AI PRO</div>
 
 <script>
 function openLink() {
@@ -69,8 +151,22 @@ function openLink() {
         window.location.href = "https://gemini.google.com/share/e0df429d580a";
     }, 800);
 }
+
+// Contact tooltip toggle
+function toggleTooltip() {
+    const tooltip = document.getElementById('tooltip');
+    tooltip.style.display = tooltip.style.display === 'block' ? 'none' : 'block';
+}
+
+// Hide tooltip if click outside
+document.addEventListener('click', function(event) {
+    const contact = document.querySelector('.contact');
+    const tooltip = document.getElementById('tooltip');
+    if (!contact.contains(event.target) && !tooltip.contains(event.target)) {
+        tooltip.style.display = 'none';
+    }
+});
 </script>
 
 </body>
 </html>
-
