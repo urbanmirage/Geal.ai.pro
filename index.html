@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Diamond Portal</title>
+<title>GEAL ❖ AI PRO</title>
 
 <style>
     body {
@@ -89,6 +89,31 @@
         pointer-events: none;
     }
 
+    .instruction {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        font-size: 12px;
+        color: rgba(255,255,255,0.6);
+        cursor: pointer;
+        z-index: 2;
+    }
+
+    .instruction-popup {
+        position: absolute;
+        bottom: 30px;
+        left: 10px;
+        background: rgba(0,0,0,0.85);
+        color: #fff;
+        padding: 10px 12px;
+        border-radius: 6px;
+        font-size: 12px;
+        display: none;
+        z-index: 3;
+        white-space: pre-line;
+        max-width: 220px;
+    }
+
     .contact {
         position: absolute;
         top: 10px;
@@ -139,6 +164,12 @@
 <div class="diamond" onclick="openLink()">◆</div>
 <div class="footer">Powered by Gemini AI</div>
 <div class="version">Ver 2.5</div>
+<div class="instruction" onclick="toggleInstruction()">Instruction</div>
+<div class="instruction-popup" id="instruction-popup">
+Log in to your Gmail account.
+Ensure that Google Chrome is installed on your device.
+An active internet connection is required to use the application.
+</div>
 <div class="contact" onclick="toggleTooltip()">Contact</div>
 <div class="tooltip" id="tooltip">urban.mirage.com@gmail.com</div>
 <div class="title">GEAL AI PRO</div>
@@ -158,12 +189,24 @@ function toggleTooltip() {
     tooltip.style.display = tooltip.style.display === 'block' ? 'none' : 'block';
 }
 
-// Hide tooltip if click outside
+// Instruction popup toggle
+function toggleInstruction() {
+    const popup = document.getElementById('instruction-popup');
+    popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
+}
+
+// Hide tooltips if click outside
 document.addEventListener('click', function(event) {
     const contact = document.querySelector('.contact');
     const tooltip = document.getElementById('tooltip');
+    const instruction = document.querySelector('.instruction');
+    const instructionPopup = document.getElementById('instruction-popup');
+
     if (!contact.contains(event.target) && !tooltip.contains(event.target)) {
         tooltip.style.display = 'none';
+    }
+    if (!instruction.contains(event.target) && !instructionPopup.contains(event.target)) {
+        instructionPopup.style.display = 'none';
     }
 });
 </script>
